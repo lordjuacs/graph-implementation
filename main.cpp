@@ -2,7 +2,7 @@
 
 int main() {
     //Tester::executeParser(file::airports);
-    Tester::executeExamples();
+    //Tester::executeExamples();
 
     return EXIT_SUCCESS;
 }
