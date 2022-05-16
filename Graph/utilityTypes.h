@@ -6,7 +6,7 @@
 #include <queue>
 #include <stack>
 #include <iostream>
-#include "Algorithms/dsarray.h"
+#include <fstream>
 
 template<typename data_t, typename weight_t>
 struct Edge;
@@ -17,8 +17,7 @@ template<typename data_t, typename weight_t>
 class Graph;
 
 /////////////define types////////////////////////
-#define umap std::unordered_map
-#define map std::map
+#define umap std::map
 #define uset std::unordered_set
 #define id_t std::string
 #define vertex_t Vertex<data_t, weight_t>
@@ -66,32 +65,6 @@ struct Vertex {
     }
 };
 
-struct City {
-    int id;
-    string name;
-    double latitude;
-    double longitude;
-};
-
-struct Airport {
-    int id;
-    string name;
-    string city;
-    string country;
-    double latitude;
-    double longitude;
-
-    Airport() {}
-
-    Airport(int i, string n, string ci, string co, double lat, double lon) :
-            id(i),
-            name(n),
-            city(ci),
-            country(co),
-            latitude(lat),
-            longitude(lon) {}
-};
-
 ////////////////functions////////////////////////
 template<typename data_t, typename weight_t>
 void visit(umap<id_t, bool> &visited, umap<id_t, vertex_t *> &vertexes, id_t id) {
@@ -107,7 +80,7 @@ template<typename data_t, typename weight_t>
 void traverse(uset<id_t> &visited, umap<id_t, vertex_t *> &vertexes, id_t id) {
     //visited[id] = true;
     visited.insert(id);
-    for (auto &it : vertexes) {
+    for (auto &it: vertexes) {
         for (auto it2 = vertexes[it.first]->edges.begin(); it2 != vertexes[it.first]->edges.end(); it2++) {
             auto other = (*it2)->vertexes[0].id != it.first ? (*it2)->vertexes[0].id : (*it2)->vertexes[1].id;
             if (other == id) {
@@ -145,7 +118,8 @@ public:
         }
         return last;
     }
-    const_iterator end() const{
+
+    const_iterator end() const {
         return this->c.cend();
     }
 };

@@ -1,11 +1,7 @@
 #ifndef GRAPH_PROJECT_PANCONPALTA_DFS_H
 #define GRAPH_PROJECT_PANCONPALTA_DFS_H
 
-#ifdef NOCLION
 #include "../Graph.h"
-#else
-#include "Graph.h"
-#endif
 
 template<typename data_t, typename weight_t>
 class UnDirectedGraph;

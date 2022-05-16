@@ -3,17 +3,19 @@
 
 #include "utilityTypes.h"
 
-
+using namespace std;
 template<typename data_t, typename weight_t>
 class Graph {
 protected:
     umap<id_t, vertex_t *> vertexes;
+    std::vector<data_t> final_states;
     int totEdges = 0;
+    int contId = 0;
 public:
 
-    Graph() {}
+    Graph() = default;
 
-    virtual ~Graph() {}
+    virtual ~Graph() = default;
 
     virtual bool insertVertex(id_t id, data_t vertex) = 0;
 

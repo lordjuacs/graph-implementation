@@ -15,21 +15,9 @@ private:
     friend
     class BFS<data_t, weight_t>;
 
-    friend
-    class FloydWarshall<data_t, weight_t>;
+    uset<weight_t> alphabet;
 
-    friend
-    class BellmanFord<data_t, weight_t>;
-
-    friend
-    class SCC<data_t, weight_t>;
-
-    friend
-    class Dijkstra<data_t, weight_t>;
-
-    friend
-    class Astar<data_t, weight_t>;
-
+    std::vector<weight_t> T;
 public:
     DirectedGraph();
 
@@ -70,6 +58,10 @@ public:
     void displayTop() override;
 
     data_t operator[](id_t key);
+
+    void readInput(const std::string &path = "");
+
+    void buildNFA();
 };
 
 template<typename data_t, typename weight_t>
@@ -97,7 +89,6 @@ bool diGraph_t::insertVertex(id_t id, data_t vertex) {
 template<typename data_t, typename weight_t>
 bool diGraph_t::createEdge(id_t id1, id_t id2, weight_t w) {
     if (id1 == id2)
-        return false;
         return false;
     if (!findVertex(id1) || !findVertex(id2))
         return false;
@@ -205,7 +196,7 @@ template<typename data_t, typename weight_t>
 bool diGraph_t::isBipartite() {
     umap<id_t, bool> color;
     color[this->vertexes.begin()->first] = true;
-    queue<id_t> q;
+    std::queue<id_t> q;
     q.push(this->vertexes.begin()->first);
 
     while (!q.empty()) {
@@ -321,6 +312,44 @@ data_t DirectedGraph<data_t, weight_t>::operator[](std::string key) {
     else
         return data_t();
 
+}
+
+template<typename data_t, typename weight_t>
+void DirectedGraph<data_t, weight_t>::readInput(const string &path) {
+    std::ifstream inputFile;
+    std::istream *pCin = &std::cin;
+    if (!path.empty()) {
+        inputFile.open(path.c_str(), std::ifstream::in);
+        pCin = &inputFile;
+    }
+    std::string input;
+    int t;
+    *pCin >> input;
+    for (auto &l: input) {
+        alphabet.insert(std::string(1, l));
+    }
+    *pCin >> t;
+    while (t--) {
+        *pCin >> input;
+        T.push_back(input);
+    }
+
+}
+
+template<typename data_t, typename weight_t>
+void DirectedGraph<data_t, weight_t>::buildNFA() {
+    insertVertex(std::to_string(++this->contId), std::to_string(this->contId));
+    for (auto &keyword: T) {
+        insertVertex(std::to_string(++this->contId), std::to_string(this->contId));
+        createEdge("1", std::to_string(this->contId), std::string(1, keyword[0]));
+        for (int i = 1; i < keyword.size(); i++) {
+            insertVertex(std::to_string(++this->contId), std::to_string(this->contId));
+            createEdge(std::to_string(this->contId - 1), std::to_string(this->contId ), std::string(1, keyword[i]));
+            if(i == keyword.size() - 1)
+                this->final_states.push_back(std::to_string(this->contId));
+        }
+    }
+    display();
 }
 
 
