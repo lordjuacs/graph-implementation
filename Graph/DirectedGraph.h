@@ -269,6 +269,18 @@ bool diGraph_t::findEdge(id_t id1, id_t id2) {
 
 template<typename data_t, typename weight_t>
 void diGraph_t::display() {
+    std::cout << "alphabet: ";
+    for (auto &i: this->alphabet)
+        std::cout << i << " ";
+    std::cout << "\nT: ";
+    for (auto &i: this->T)
+        std::cout << i << " ";
+    std::cout << "\ninitial state: 1";
+    std::cout << "\nfinal state(s): ";
+    for (auto &i: this->final_states)
+        std::cout << i << " ";
+    std::cout << "\n";
+
     for (auto it = this->vertexes.begin(); it != this->vertexes.end(); ++it) {
         std::cout << it->second->id << ": ";
         for (auto it2 = it->second->edges.begin(); it2 != it->second->edges.end(); ++it2) {
@@ -279,6 +291,8 @@ void diGraph_t::display() {
             if (*it2 != *it->second->edges.rbegin())
                 std::cout << ", ";
         }
+        if(it->second->edges.empty())
+            std::cout << "X";
         std::cout << std::endl;
     }
 }
@@ -344,12 +358,11 @@ void DirectedGraph<data_t, weight_t>::buildNFA() {
         createEdge("1", std::to_string(this->contId), std::string(1, keyword[0]));
         for (int i = 1; i < keyword.size(); i++) {
             insertVertex(std::to_string(++this->contId), std::to_string(this->contId));
-            createEdge(std::to_string(this->contId - 1), std::to_string(this->contId ), std::string(1, keyword[i]));
-            if(i == keyword.size() - 1)
+            createEdge(std::to_string(this->contId - 1), std::to_string(this->contId), std::string(1, keyword[i]));
+            if (i == keyword.size() - 1)
                 this->final_states.push_back(std::to_string(this->contId));
         }
     }
-    display();
 }
 
 

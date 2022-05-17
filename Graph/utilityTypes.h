@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <map>
 #include <unordered_set>
+#include <set>
 #include <queue>
 #include <stack>
 #include <iostream>
@@ -18,7 +19,7 @@ class Graph;
 
 /////////////define types////////////////////////
 #define umap std::map
-#define uset std::unordered_set
+#define uset std::set
 #define id_t std::string
 #define vertex_t Vertex<data_t, weight_t>
 #define edge_t Edge<data_t, weight_t>

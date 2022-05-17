@@ -11,6 +11,7 @@ int main() {
     DirectedGraph<data_type, weight_type> afn;
     afn.readInput("../in.txt");
     afn.buildNFA();
+    afn.display();
 
 
     return EXIT_SUCCESS;
